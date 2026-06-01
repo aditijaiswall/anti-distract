@@ -1,0 +1,97 @@
+{
+  "manifest_version": 3,
+  "name": "AntiDistract",
+  "version": "1.0",
+  "description": "Stay focused with a timer, goals, and ambient sounds.",
+  "permissions": [
+    "storage",
+    "alarms",
+    "webNavigation",
+    "tabs",
+    "scripting",
+    "offscreen",
+    "notifications"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/ui-components.js",
+        "content/widget.js"
+      ],
+      "css": [
+        "content/widget.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://antidistract-website.vercel.app/*"
+      ],
+      "js": [
+        "content/sync_bridge.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "content/ai/ai-monitor.js"
+      ],
+      "css": [
+        "content/blocker.css"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://*.reddit.com/*"
+      ],
+      "js": [
+        "content/ai/ai-monitor.js"
+      ],
+      "css": [
+        "content/blocker.css"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/ai/ai-monitor.js"
+      ],
+      "css": [
+        "content/blocker.css"
+      ],
+      "run_at": "document_end",
+      "exclude_matches": [
+        "*://*.youtube.com/*",
+        "*://*.reddit.com/*"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

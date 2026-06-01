@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AntiDistract</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <button id="nav-focus" class="tab-item active">FOCUS</button>
+      <button id="nav-dashboard" class="tab-item">DASHBOARD</button>
+    </nav>
+
+    <main id="focus-view" class="view custom-scroll">
+      <header class="view-header horizontal-row">
+        <h1 class="accent-title">Focus Mode</h1>
+        <div id="cloud-status" class="cloud-status" title="Sync Status: Local Only">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17.5 19c2.5 0 4.5-2 4.5-4.5 0-2.3-1.7-4.2-3.9-4.5-.8-4.1-4.8-7-9.1-6-3.3.8-5.7 3.7-5.7 7.1 0 .2 0 .4.1.6C1.3 12.5 0 14.1 0 16c0 2.2 1.8 4 4 4h13.5z" />
+          </svg>
+        </div>
+      </header>
+
+      <!-- Account View: shown when logged in -->
+      <div id="account-view" class="account-view" style="display:none;">
+        <div class="account-header">
+            <div class="account-avatar" id="account-avatar">?</div>
+            <div class="account-info">
+                <p class="account-email" id="account-email">—</p>
+                <span class="account-badge" id="account-badge">Free</span>
+            </div>
+        </div>
+        <div class="account-usage" id="account-usage">
+            <div class="usage-bar-wrap">
+                <div class="usage-bar-fill" id="usage-bar-fill" style="width: 100%;"></div>
+            </div>
+            <div class="usage-footer-row">
+              <p class="usage-label" id="usage-label">15 / 15 AI scans left today</p>
+              <a id="upgrade-link" href="#" class="upgrade-link" style="display:none;">Upgrade →</a>
+            </div>
+        </div>
+      </div>
+
+      <section class="main-content-card">
+        <section class="goal-section">
+          <div class="card input-card">
+            <input type="text" id="goal-input" placeholder="What is your goal?" value="learn docker">
+          </div>
+        </section>
+
+        <section class="duration-section">
+          <label class="section-label">FOCUS DURATION:</label>
+          <div class="duration-grid">
+            <div class="duration-card chip" data-time="1">
+              <span class="time">1min</span>
+              <span class="label">TEST</span>
+            </div>
+            <div class="duration-card chip active" data-time="25">
+              <span class="time">25min</span>
+              <span class="label">POMODORO</span>
+            </div>
+            <div class="duration-card chip" data-time="30">
+              <span class="time">30min</span>
+              <span class="label">SHORT</span>
+            </div>
+            <div class="duration-card chip" data-time="60">
+              <span class="time">60min</span>
+              <span class="label">LONG</span>
+            </div>
+            <div class="duration-card chip" data-time="90">
+              <span class="time">90min</span>
+              <span class="label">DEEP WORK</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="action-section">
+          <div id="timer-display" class="timer-boxes" style="display:none;">
+            <div class="timer-box" id="timer-h">00</div>
+            <span class="timer-sep">:</span>
+            <div class="timer-box" id="timer-m">25</div>
+            <span class="timer-sep">:</span>
+            <div class="timer-box" id="timer-s">00</div>
+          </div>
+          <button id="main-action-btn" class="primary-btn">Start Focus Session</button>
+          <button id="reset-session-btn" class="secondary-btn">End Session</button>
+        </section>
+      </section>
+
+      <section class="controls-footer">
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="social-media-trigger">
+            <span>SITE BLOCKER</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div class="control-row">
+              <span class="control-label">Block Distractions</span>
+              <label class="switch">
+                <input type="checkbox" id="block-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="blocker-manager">
+              <div class="input-card blocker-input-group">
+                <input type="text" id="blocked-site-input" placeholder="e.g. reddit.com">
+                <button id="add-site-btn">ADD</button>
+              </div>
+              <div id="blocked-sites-list" class="blocked-sites-list">
+                <!-- Sites will be rendered here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="sounds-trigger">
+            <span>SOUNDSCAPES</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div class="sounds-grid">
+              <div class="sound-option" data-sound="empty-room">
+                <span class="sound-icon">🏚️</span>
+                <span class="sound-label">Empty Room</span>
+              </div>
+
+              <div class="sound-option" data-sound="brown-noise">
+                <span class="sound-icon">🍪</span>
+                <span class="sound-label">Brown Noise</span>
+              </div>
+              <div class="sound-option" data-sound="white-noise">
+                <span class="sound-icon">🧂</span>
+                <span class="sound-label">White Noise</span>
+              </div>
+              <div class="sound-option" data-sound="binaural-beats">
+                <span class="sound-icon">🧘</span>
+                <span class="sound-label">Binaural</span>
+              </div>
+
+            </div>
+            <div class="sound-toggle-btn" id="sound-play-toggle">Stop Music</div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="themes-trigger">
+            <span>WIDGET SCENES</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div class="themes-grid">
+              <div class="theme-option active" data-scene="forest"
+                style="background-image: url('../assets/themes/forest_bg.png')">
+                <span class="theme-label">Forest</span>
+              </div>
+              <div class="theme-option" data-scene="cafe" style="background-image: url('../assets/themes/cafe_bg.png')">
+                <span class="theme-label">Cafe</span>
+              </div>
+              <div class="theme-option" data-scene="rain" style="background-image: url('../assets/themes/rain_bg.png')">
+                <span class="theme-label">Rain</span>
+              </div>
+              <div class="theme-option" data-scene="library"
+                style="background-image: url('../assets/themes/library_bg.png')">
+                <span class="theme-label">Library</span>
+              </div>
+              <div class="theme-option" data-scene="space"
+                style="background-image: url('../assets/themes/space_bg.png')">
+                <span class="theme-label">Space</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="color-themes-trigger">
+            <span>COLOUR THEMES</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div class="color-themes-grid">
+              <div class="color-chip active" data-theme="default">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #0c0c0c; border: 1px solid #333;"></div>
+                  <div class="c-dot" style="background: #4caf50;"></div>
+                </div>
+                <span class="chip-label">Lofi</span>
+              </div>
+              <div class="color-chip" data-theme="navy">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #0b0e14;"></div>
+                  <div class="c-dot" style="background: #5e6ad2;"></div>
+                </div>
+                <span class="chip-label">Navy</span>
+              </div>
+              <div class="color-chip" data-theme="warm">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #f9f7f2; border: 1px solid #ddd;"></div>
+                  <div class="c-dot" style="background: #d4a373;"></div>
+                </div>
+                <span class="chip-label">Cream</span>
+              </div>
+              <div class="color-chip" data-theme="forest">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #1b261e;"></div>
+                  <div class="c-dot" style="background: #8ba88e;"></div>
+                </div>
+                <span class="chip-label">Moss</span>
+              </div>
+              <div class="color-chip" data-theme="purple">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #1a1625;"></div>
+                  <div class="c-dot" style="background: #bb86fc;"></div>
+                </div>
+                <span class="chip-label">Plum</span>
+              </div>
+              <div class="color-chip" data-theme="monochrome">
+                <div class="chip-preview">
+                  <div class="c-dot" style="background: #000000; border: 1px solid #333;"></div>
+                  <div class="c-dot" style="background: #ffc107;"></div>
+                </div>
+                <span class="chip-label">Mono</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="live-rooms-trigger">
+            <span>LIVE ROOMS</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div id="rejoin-container" style="display: none; margin-bottom: 12px;">
+              <p class="section-label" style="font-size: 9px; margin-bottom: 6px;">REJOIN LAST SESSION:</p>
+              <div id="rejoin-pill" class="chip active" style="width: 100%; justify-content: space-between; cursor: pointer;">
+                <span id="rejoin-code" style="font-weight: 800; letter-spacing: 1px;">CODE123</span>
+                <span style="font-size: 10px; opacity: 0.8;">Click to Join</span>
+              </div>
+            </div>
+            
+            <div class="input-card room-input-group">
+              <input type="text" id="room-join-input" placeholder="Enter 6-char code" maxlength="6">
+              <button id="btn-join-room">JOIN</button>
+            </div>
+            <button id="btn-create-room" class="secondary-btn full-width" style="margin-top: 8px; font-size: 10px; padding: 10px;">
+              + CREATE NEW ROOM
+            </button>
+            <p class="empty-state small" style="margin-top: 10px; text-align: center;">Focus synchronously with your squad.</p>
+          </div>
+        </div>
+
+        <div class="control-row premium-row">
+          <span class="control-label">AI Focus Blocker <span class="premium-tag">PLUS</span></span>
+          <label class="switch flex-shrink-0">
+            <input type="checkbox" id="ai-monitor-toggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div id="ai-monitor-hint" style="display:none; font-size:11px; color:#FFA726; padding: 4px 12px 8px 12px; line-height:1.4;">⚠️ Set a goal and start a session first to enable the AI Focus Blocker.</div>
+
+        <div class="control-row tunnel-vision-row premium-row">
+          <span class="control-label">Tunnel Vision <span class="premium-tag">PLUS</span></span>
+          <label class="switch">
+            <input type="checkbox" id="tunnel-vision-toggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <main id="dashboard-view" class="view custom-scroll" style="display: none;">
+      <header class="view-header">
+        <h1 class="accent-title">Productivity</h1>
+      </header>
+
+      <section class="productivity-grid">
+        <div class="stat-card large">
+          <span id="stat-goals">0</span>
+          <label>GOALS TODAY</label>
+        </div>
+        <div class="stat-card large">
+          <span id="stat-interruptions">0</span>
+          <label>INTERRUPTIONS TODAY</label>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <h2 class="section-label">Top Distractions (Daily)</h2>
+        <div id="distractions-list" class="distractions-list">
+          <!-- Distractions will be rendered here -->
+          <p class="empty-state small">No distractions recorded yet.</p>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <div class="section-header-row">
+          <h2 class="section-label">Daily Targets</h2>
+          <button id="clear-targets-btn" class="text-btn">Clear All</button>
+        </div>
+        <div class="targets-manager">
+          <div class="input-card target-input-group">
+            <input type="text" id="target-input" placeholder="Add a daily target...">
+            <button id="add-target-btn">+</button>
+          </div>
+          <div id="targets-list" class="targets-list">
+            <!-- Targets will be rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <footer class="dashboard-footer">
+        <button class="secondary-btn full-width">View Full Analysis & Settings</button>
+      </footer>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

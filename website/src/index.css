@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #4caf50;
+  --color-brand-hover: #388e3c;
+  --color-bg-deep: #0a0a0a;
+  --color-bg-card: #161616;
+  --color-border-subtle: #222222;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  background-color: #0c0c0c;
+  color: rgba(255, 255, 255, 0.87);
+  --bg-color: #0c0c0c;
+  --card-bg: #161616;
+  --border-color: #222222;
+  --accent-color: #4caf50;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus ring for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+}
+
+body[data-theme='default'] {
+  --bg-color: #0c0c0c;
+  --card-bg: #161616;
+  --border-color: #222222;
+  --accent-color: #4caf50;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+}
+
+body[data-theme='navy'] {
+  --bg-color: #0b0e14;
+  --card-bg: #151921;
+  --border-color: #262932;
+  --accent-color: #5e6ad2;
+  --text-primary: #f1f1f3;
+  --text-secondary: #8a8d98;
+}
+
+body[data-theme='warm'] {
+  --bg-color: #f9f7f2;
+  --card-bg: #ffffff;
+  --border-color: #e9edc9;
+  --accent-color: #d4a373;
+  --text-primary: #2d3142;
+  --text-secondary: #6c757d;
+}
+
+body[data-theme='forest'] {
+  --bg-color: #1b261e;
+  --card-bg: #243027;
+  --border-color: #2a3a2f;
+  --accent-color: #8ba88e;
+  --text-primary: #f2e8cf;
+  --text-secondary: #9daf9f;
+}
+
+body[data-theme='purple'] {
+  --bg-color: #1a1625;
+  --card-bg: #241e33;
+  --border-color: #312744;
+  --accent-color: #bb86fc;
+  --text-primary: #e1e1e1;
+  --text-secondary: #9d92b8;
+}
+
+body[data-theme='monochrome'] {
+  --bg-color: #000000;
+  --card-bg: #111111;
+  --border-color: #333333;
+  --accent-color: #ffc107;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+}
+
+.app-container {
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar for Dashboard */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c0c0c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stay Focused | AntiDistract</title>
+  <style>
+    :root {
+      --bg: #0c0c0c;
+      --text: #ffffff;
+      --accent: #4caf50;
+    }
+    body[data-theme='navy'] { --bg: #0b0e14; --text: #f1f1f3; --accent: #5e6ad2; }
+    body[data-theme='warm'] { --bg: #f9f7f2; --text: #2d3142; --accent: #d4a373; }
+    body[data-theme='forest'] { --bg: #1b261e; --text: #f2e8cf; --accent: #8ba88e; }
+    body[data-theme='purple'] { --bg: #1a1625; --text: #e1e1e1; --accent: #bb86fc; }
+    body[data-theme='monochrome'] { --bg: #000000; --text: #ffffff; --accent: #ffc107; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: background-color 0.5s ease;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: -2px;
+    }
+
+    p {
+      font-size: 18px;
+      opacity: 0.7;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .back-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 12px;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="headline">Stay Focused</h1>
+    <p id="subtext">This site is blocked during your focus session. You're doing great—don't let the distractions win now!</p>
+    <a href="javascript:history.back()" class="back-btn">Go Back to Work</a>
+  </div>
+  <div class="footer">AntiDistract &copy; 2026</div>
+
+  <script>
+    // Sync theme
+    chrome.storage.local.get(['activeTheme'], (data) => {
+      document.body.dataset.theme = data.activeTheme || 'default';
+    });
+  </script>
+</body>
+</html>
