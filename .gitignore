@@ -29,3 +29,11 @@ dist-ssr/
 *.zip
 *.tar.gz
 *.rar
+
+# Private Project Files & Temp
+supabase/
+tmp/
+temp/
+*.tmp
+test-func.js
+check_db.js
